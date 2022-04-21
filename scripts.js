@@ -41,4 +41,54 @@ const displayedInput = document.querySelector('.js-display-input');
 
 displayedMemory.innerText = '0';
 displayedTotal.innerText = '2';
-displayedInput.innerText = '1+1';
+displayedInput.innerText = '';
+
+// const displayTotal
+
+const mainKeypad = document.querySelector('.js-main-keypad');
+const mainKeys = mainKeypad.querySelectorAll('button');
+let numberValues = [];
+let numberSets = [];
+let operations = [];
+let fullDisplay = [];
+
+const deleteFunction = () => {
+    numberValues.pop();
+    fullDisplay.pop();
+    displayedInput.innerText = fullDisplay.join('');
+}
+
+const buttonDelete = document.querySelector('.btn-delete');
+buttonDelete.addEventListener('click', deleteFunction);
+
+mainKeys.forEach((key) => {
+    key.addEventListener('click', (e) => {
+        let keyValue = e.target.value;
+        // console.log(keyValue);
+        if (keyValue.match(/[0-9]/g)) {
+            numberValues.push(keyValue);
+            fullDisplay.push(keyValue);
+        } else {
+            if (numberValues.length) {
+                numberSets.push(numberValues.join(''));
+                numberValues.splice(0, numberValues.length);
+            }
+            if (keyValue === '=') {
+                displayedTotal.innerText = numberSets.reduce((equals, number, index) => {
+                    // console.log(`equals index: ${index}`);
+                    // console.log(`operation: ${operations[index - 1]}`);
+                    // console.log(`num1: ${equals}`);
+                    // console.log(`num2: ${number}`);                    
+                    return operate(operations[index - 1], parseInt(equals), parseInt(number));
+                });
+            } else {
+                operations[numberSets.length - 1] = keyValue;
+                fullDisplay[fullDisplay.length-1].match(/[0-9]/g) ? fullDisplay.push(keyValue) : fullDisplay[fullDisplay.length-1] = keyValue;
+            }
+        }
+        displayedInput.innerText = fullDisplay.join('');
+        // console.log(numberValues);
+        console.log(operations);
+        console.log(numberSets);
+    });
+});
