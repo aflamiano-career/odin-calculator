@@ -43,18 +43,22 @@ const mainKeypad = document.querySelector('.js-main-keypad');
 const mainKeys = mainKeypad.querySelectorAll('button');
 
 let inputs = [];
+let display = 0;
 
 const deleteFunction = () => {
     inputs.pop();
     if (!inputs.length) {
-        displayedInput.innerText = 0;
+        display = 0;
+        displayedInput.innerText = display;
     } else {
-        displayedInput.innerText = inputs.join('');
+        display = inputs.join('');
+        displayedInput.innerText = display;
     }
 }
 
 const clearFunction = () => {
     inputs.splice(0, inputs.length);
+    display = 0;
     displayedMemory.innerText = '';
     displayedTotal.innerText = '';
     displayedInput.innerText = 0;
@@ -70,7 +74,6 @@ const isNumber = (value) => {
     return value.match(/[0-9]/g);
 }
 
-let display = 0;
 mainKeys.forEach((key) => {
     key.addEventListener('click', (e) => {
         let keyValue = e.target.value;
