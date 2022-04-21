@@ -30,65 +30,99 @@ const operate = (operator, num1, num2) => {
     }
 }
 
-console.log(operate('/', 1, 1));
-console.log(operate('*', 1, 2));
-console.log(operate('-', 1, 2));
-console.log(operate('+', 1, 2));
+// console.log(operate('/', 1, 1));
+// console.log(operate('*', 1, 2));
+// console.log(operate('-', 1, 2));
+// console.log(operate('+', 1, 2));
 
 const displayedMemory = document.querySelector('.js-display-memory');
 const displayedTotal = document.querySelector('.js-display-total');
 const displayedInput = document.querySelector('.js-display-input');
 
-displayedMemory.innerText = '0';
-displayedTotal.innerText = '2';
-displayedInput.innerText = '';
-
-// const displayTotal
-
 const mainKeypad = document.querySelector('.js-main-keypad');
 const mainKeys = mainKeypad.querySelectorAll('button');
-let numberValues = [];
-let numberSets = [];
-let operations = [];
-let fullDisplay = [];
+
+let inputs = [];
 
 const deleteFunction = () => {
-    numberValues.pop();
-    fullDisplay.pop();
-    displayedInput.innerText = fullDisplay.join('');
+    inputs.pop();
+    if (!inputs.length) {
+        displayedInput.innerText = 0;
+    } else {
+        displayedInput.innerText = inputs.join('');
+    }
+}
+
+const clearFunction = () => {
+    inputs.splice(0, inputs.length);
+    displayedMemory.innerText = '';
+    displayedTotal.innerText = '';
+    displayedInput.innerText = 0;
 }
 
 const buttonDelete = document.querySelector('.btn-delete');
 buttonDelete.addEventListener('click', deleteFunction);
 
+const buttonClear = document.querySelector('.btn-clear');
+buttonClear.addEventListener('click', clearFunction);
+
+const isNumber = (value) => {
+    return value.match(/[0-9]/g);
+}
+
+let display = 0;
 mainKeys.forEach((key) => {
     key.addEventListener('click', (e) => {
         let keyValue = e.target.value;
         // console.log(keyValue);
-        if (keyValue.match(/[0-9]/g)) {
-            numberValues.push(keyValue);
-            fullDisplay.push(keyValue);
-        } else {
-            if (numberValues.length) {
-                numberSets.push(numberValues.join(''));
-                numberValues.splice(0, numberValues.length);
+        if (isNumber(keyValue)) {
+            inputs.push(keyValue);
+            display = inputs.join('');
+        } else if (keyValue === '.') {
+            let decimal = inputs
+                                .join('')
+                                .split(/[^0-9.]/g);
+            if (!decimal[decimal.length-1].includes('.')) {
+                inputs.push(keyValue);
+                display = inputs.join('');
             }
-            if (keyValue === '=') {
-                displayedTotal.innerText = numberSets.reduce((equals, number, index) => {
-                    // console.log(`equals index: ${index}`);
-                    // console.log(`operation: ${operations[index - 1]}`);
-                    // console.log(`num1: ${equals}`);
-                    // console.log(`num2: ${number}`);                    
-                    return operate(operations[index - 1], parseInt(equals), parseInt(number));
+        } else if (keyValue === '=') {
+            if (!inputs.length) {
+                // DO NOTHING
+            } else if (isNumber(inputs[inputs.length-1])) {
+                let numberSets = inputs
+                                .join('')
+                                .split(/[^0-9.]/g);
+                let operations = inputs.filter((input) => {
+                    return !isNumber(input) && input !== '.';
                 });
+                let result = numberSets.reduce((result, numbers, index) => {
+                    return operate(operations[index - 1], parseFloat(result), parseFloat(numbers));
+                });
+                console.log(numberSets);
+                // console.log(operations);
+                console.log(result);
+                if (isNaN(result)) {
+                    clearFunction();
+                    displayedTotal.innerText = result;
+                } else {
+                    displayedTotal.innerText = Math.round(result * 100) / 100;
+                }
+                if (parseInt(inputs.join('')) === 0) {
+                    // DO NOTHING
+                } else {
+                    displayedMemory.innerText = inputs.join('');
+                }
             } else {
-                operations[numberSets.length - 1] = keyValue;
-                fullDisplay[fullDisplay.length-1].match(/[0-9]/g) ? fullDisplay.push(keyValue) : fullDisplay[fullDisplay.length-1] = keyValue;
+                alert('Malformed expression.');
+            }
+        } else {
+            if (inputs.length && 
+                isNumber(inputs[inputs.length-1])) {
+                    inputs.push(keyValue);
+                    display = inputs.join('');
             }
         }
-        displayedInput.innerText = fullDisplay.join('');
-        // console.log(numberValues);
-        console.log(operations);
-        console.log(numberSets);
+        displayedInput.innerText = display;
     });
 });

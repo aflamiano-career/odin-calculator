@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akshar&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
@@ -32,9 +34,18 @@ body {
     background-color: azure;
     padding: 10px;
     display: grid;
-    gap: 10px;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1.25fr 2fr;
     border: 2px solid #000;
+    /* font-family: 'Orbitron', sans-serif; */
+    font-family: 'Akshar', sans-serif;
+}
+
+.display-total {
+    font-size: 1.25rem;
+}
+
+.display-input {
+    font-size: 2rem;
 }
 
 button {
