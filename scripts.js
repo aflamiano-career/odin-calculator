@@ -61,7 +61,7 @@ const clearFunction = () => {
     display = 0;
     displayedMemory.innerText = '';
     displayedTotal.innerText = '';
-    displayedInput.innerText = 0;
+    displayedInput.innerText = display;
 }
 
 const buttonDelete = document.querySelector('.btn-delete');
