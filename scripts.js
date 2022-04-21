@@ -102,9 +102,9 @@ mainKeys.forEach((key) => {
                 let result = numberSets.reduce((result, numbers, index) => {
                     return operate(operations[index - 1], parseFloat(result), parseFloat(numbers));
                 });
-                console.log(numberSets);
+                // console.log(numberSets);
                 // console.log(operations);
-                console.log(result);
+                // console.log(result);
                 if (isNaN(result)) {
                     clearFunction();
                     displayedTotal.innerText = result;
