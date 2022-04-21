@@ -111,11 +111,7 @@ mainKeys.forEach((key) => {
                 } else {
                     displayedTotal.innerText = Math.round(result * 100) / 100;
                 }
-                if (parseInt(inputs.join('')) === 0) {
-                    // DO NOTHING
-                } else {
-                    displayedMemory.innerText = inputs.join('');
-                }
+                displayedMemory.innerText = inputs.join('');
             } else {
                 alert('Malformed expression.');
             }
