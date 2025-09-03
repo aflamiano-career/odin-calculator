@@ -1,6 +1,11 @@
 let num1 = "";
-let operator = "";
 let num2 = "";
+let operator = "";
+let previousOperator = "";
+
+let expression = "";
+let output = "";
+let result = "";
 
 const outputScreen = document.querySelector(".screen p");
 
@@ -8,11 +13,9 @@ const digitBtns = document.querySelectorAll(".digit-row button");
 digitBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     let digitValue = e.target.textContent;
-    num1 += digitValue;
-    outputScreen.textContent = num1;
-
-    num2 += digitValue;
-    outputScreen.textContent = num2;
+    // console.log(`button value: ${digitValue}`);
+    output += digitValue;
+    outputScreen.textContent = output;
   });
 });
 
@@ -20,7 +23,21 @@ const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     let operatorValue = e.target.textContent.toLowerCase();
-    console.log(operatorValue);
+    operator = operatorValue;
+
+    if (!num1) {
+      num1 = parseFloat(outputScreen.textContent);
+    } else {
+      num2 = parseFloat(outputScreen.textContent);
+      num1 = operate(previousOperator, num1, num2);
+      outputScreen.textContent = num1;
+    }
+
+    console.log(`n1: ${num1}`);
+    console.log(`n2: ${num2}`);
+
+    previousOperator = operator;
+    output = "";
   });
 });
 
@@ -28,10 +45,10 @@ function add(num1, num2) {
   return num1 + num2;
 }
 function subtract(num1, num2) {
-  return num1 + num2;
+  return num1 - num2;
 }
 function multiply(num1, num2) {
-  return num1 + num2;
+  return num1 * num2;
 }
 function divide(num1, num2) {
   return num2 !== 0 ? num1 / num2 : "ERROR";
