@@ -7,15 +7,18 @@ let expression = "";
 let output = "";
 let result = "";
 
+let operatorFlag = null;
+
 const outputScreen = document.querySelector(".screen p");
 
 const digitBtns = document.querySelectorAll(".digit-row button");
 digitBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     let digitValue = e.target.textContent;
-    // console.log(`button value: ${digitValue}`);
     output += digitValue;
+
     outputScreen.textContent = output;
+    operatorFlag = false;
   });
 });
 
@@ -23,20 +26,26 @@ const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     let operatorValue = e.target.textContent.toLowerCase();
-    operator = operatorValue;
 
-    if (!num1) {
-      num1 = parseFloat(outputScreen.textContent);
+    if (operator !== "=") {
+      operator = previousOperator;
     } else {
-      num2 = parseFloat(outputScreen.textContent);
-      num1 = operate(previousOperator, num1, num2);
-      outputScreen.textContent = num1;
+      operator = operatorValue;
     }
 
-    console.log(`n1: ${num1}`);
-    console.log(`n2: ${num2}`);
+    if (!operatorFlag) {
+      if (!num1) {
+        num1 = parseFloat(outputScreen.textContent);
+      } else {
+        num2 = parseFloat(outputScreen.textContent);
+        num1 = operate(previousOperator, num1, num2);
+        outputScreen.textContent = num1;
+      }
+    }
 
     previousOperator = operator;
+    operatorFlag = true;
+
     output = "";
   });
 });
