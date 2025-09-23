@@ -26,12 +26,7 @@ const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     let operatorValue = e.target.textContent.toLowerCase();
-
-    if (operator !== "=") {
-      operator = previousOperator;
-    } else {
-      operator = operatorValue;
-    }
+    operator = operatorValue;
 
     if (!operatorFlag) {
       if (!num1) {
