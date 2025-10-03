@@ -1,3 +1,45 @@
 body {
   background-color: gray;
+  align-content: center;
+  font-size: 2rem;
+}
+
+.calculator {
+  max-width: 18.75rem;
+  background-color: #fff;
+  padding: 2rem;
+  margin: 4rem auto;
+  border-radius: 1rem;
+}
+
+.screen {
+  background-color: rgb(172, 177, 199);
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.buttons-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.buttons-row button {
+  flex: 1 1 0;
+}
+
+.buttons-row:last-child {
+  justify-content: right;
+}
+
+.buttons-row:last-child button:first-child,
+.buttons-row:first-child button:first-child {
+  flex: 2.5 1 0;
 }
