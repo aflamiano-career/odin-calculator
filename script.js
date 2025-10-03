@@ -80,8 +80,8 @@ equalBtn.addEventListener("click", () => {
 const resetBtn = document.querySelector(".reset-btn");
 resetBtn.addEventListener("click", () => {
   outputScreen.textContent = 0;
-  num1 = "";
-  num2 = "";
+  num1 = null;
+  num2 = null;
   operator = "";
   previousOperator = "";
 
@@ -89,6 +89,7 @@ resetBtn.addEventListener("click", () => {
 
   hasOperator = null;
   hasFirstNum = null;
+  hasComputed = null;
 });
 
 function add(num1, num2) {
