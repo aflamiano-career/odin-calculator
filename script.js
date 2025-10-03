@@ -1,5 +1,5 @@
-let num1 = "";
-let num2 = "";
+let num1 = null;
+let num2 = null;
 let operator = "";
 let previousOperator = "";
 
@@ -41,14 +41,17 @@ const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     operator = e.target.textContent.toLowerCase();
-    output = "";
 
-    if (num1) {
+    if (num1 != null) {
       hasFirstNum = true;
     }
 
+    if (hasComputed) {
+      num2 = parseFloat(outputScreen.textContent);
+    }
+
     if (!hasOperator) {
-      if (num2) {
+      if (num2 != null) {
         num1 = operate(previousOperator, num1, num2);
         outputScreen.textContent = num1;
       }
@@ -57,12 +60,14 @@ operatorBtns.forEach((btn) => {
     previousOperator = operator;
     hasOperator = true;
     hasComputed = false;
+
+    output = "";
   });
 });
 
 const equalBtn = document.querySelector(".equal-btn");
 equalBtn.addEventListener("click", () => {
-  if (num2) {
+  if (num2 != null) {
     num1 = operate(previousOperator, num1, num2);
     outputScreen.textContent = num1;
     output = "";
