@@ -17,11 +17,33 @@ digitBtns.forEach((btn) => {
       output = output.slice(1);
     }
 
+    if (output.startsWith("-")) {
+      if (output.length > 1) {
+        if (output[1] == 0) {
+          output = output.replace(/0+/, "");
+        }
+      }
+    }
+
     if (e.target.textContent == "." && output.includes(".")) {
       return;
     }
 
-    output += e.target.textContent;
+    if (e.target.textContent == "+/-") {
+      if (hasOperator) {
+        output = "-0";
+        outputScreen.textContent = output;
+        console.log("operation active");
+      } else {
+        if (outputScreen.textContent.includes("-")) {
+          output = outputScreen.textContent.slice(1);
+        } else {
+          output = `-${outputScreen.textContent}`;
+        }
+      }
+    } else {
+      output += e.target.textContent;
+    }
 
     if (!hasFirstNum) {
       num1 = parseFloat(output);
