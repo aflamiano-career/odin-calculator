@@ -3,17 +3,24 @@ let num2 = "";
 let operator = "";
 let previousOperator = "";
 
-let expression = "";
 let output = "";
-let result = "";
 
 let hasOperator = null;
 let hasFirstNum = null;
+let hasComputed = null;
 const outputScreen = document.querySelector(".screen p");
 
-const digitBtns = document.querySelectorAll(".digit-row button");
+const digitBtns = document.querySelectorAll(".digit");
 digitBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
+    if (output.startsWith("0")) {
+      output = output.slice(1);
+    }
+
+    if (e.target.textContent == "." && output.includes(".")) {
+      return;
+    }
+
     output += e.target.textContent;
 
     if (!hasFirstNum) {
@@ -23,7 +30,10 @@ digitBtns.forEach((btn) => {
     }
 
     outputScreen.textContent = output;
-    hasOperator = false;
+
+    if (!hasComputed) {
+      hasOperator = false;
+    }
   });
 });
 
@@ -31,6 +41,7 @@ const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     operator = e.target.textContent.toLowerCase();
+    output = "";
 
     if (num1) {
       hasFirstNum = true;
@@ -45,17 +56,34 @@ operatorBtns.forEach((btn) => {
 
     previousOperator = operator;
     hasOperator = true;
-    output = "";
+    hasComputed = false;
   });
 });
 
 const equalBtn = document.querySelector(".equal-btn");
-equalBtn.addEventListener("click", (e) => {
+equalBtn.addEventListener("click", () => {
   if (num2) {
     num1 = operate(previousOperator, num1, num2);
     outputScreen.textContent = num1;
+    output = "";
+    hasFirstNum = false;
     hasOperator = true;
+    hasComputed = true;
   }
+});
+
+const resetBtn = document.querySelector(".reset-btn");
+resetBtn.addEventListener("click", () => {
+  outputScreen.textContent = 0;
+  num1 = "";
+  num2 = "";
+  operator = "";
+  previousOperator = "";
+
+  output = "";
+
+  hasOperator = null;
+  hasFirstNum = null;
 });
 
 function add(num1, num2) {
