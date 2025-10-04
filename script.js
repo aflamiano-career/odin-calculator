@@ -33,7 +33,6 @@ digitBtns.forEach((btn) => {
       if (hasOperator) {
         output = "-0";
         outputScreen.textContent = output;
-        console.log("operation active");
       } else {
         if (outputScreen.textContent.includes("-")) {
           output = outputScreen.textContent.slice(1);
@@ -131,15 +130,11 @@ function operate(operator, num1, num2) {
   switch (operator) {
     case "+":
       return add(num1, num2);
-      break;
     case "-":
       return subtract(num1, num2);
-      break;
     case "*":
       return multiply(num1, num2);
-      break;
     case "/":
       return divide(num1, num2);
-      break;
   }
 }
